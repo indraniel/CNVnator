@@ -233,6 +233,7 @@ int main(int argc,char *argv[])
     if (option == OPT_TREE) { // tree
       HisMaker maker(out_root_file,genome);
       maker.setDataDir(dir);
+      cout << "n_chroms : " << n_chroms << endl;
       maker.produceTrees(chroms,n_chroms,data_files,n_files,forUnique);
     }
     if (option == OPT_MERGE) { // merge

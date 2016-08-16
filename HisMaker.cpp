@@ -3210,8 +3210,13 @@ int HisMaker::parseGCandAT(char *seq,int len,int **addr_for_at,TH1 *his_gc)
 int findIndex(string *arr,int n,string name)
 {
   string can_name = Genome::canonicalChromName(name);
-  for (int i = 0;i < n;i++)
-    if (Genome::canonicalChromName(arr[i]) == can_name) return i;
+  cout << "\t ---- " << "input name: " << name << " | " << "canonical name: " << can_name << endl;
+  for (int i = 0;i < n;i++) {
+    string ref_chrom_name = arr[i];
+    string canonical_ref_chrom_name = Genome::canonicalChromName(ref_chrom_name);
+    cout << "\t --------> " << "Performing match on: " << canonical_ref_chrom_name << endl;
+    if (canonical_ref_chrom_name == can_name) return i;
+  }
   return -1;
 }
 
@@ -3291,8 +3296,9 @@ void HisMaker::produceTrees(string *user_chroms,int n_chroms,
       for (int c = 0;c < parser->numChrom();c++) reindex[c] = -1;
       for (int c = 0;c < parser->numChrom();c++) {
 	string name = parser->chromName(c);
+    cout << "Looking up CRAM chrom: " << name << " in -chrom list" << endl;
 	if (n_chroms > 0 && findIndex(user_chroms,n_chroms,name) < 0) {
-	  //cout<<"NOT considering chromosome/contig '"<<name<<"'."<<endl;
+	  cout<<"NOT considering chromosome/contig '"<<name<<"'."<<endl;
 	  continue;
 	}
 	int index = findIndex(cnames,ncs,name);
